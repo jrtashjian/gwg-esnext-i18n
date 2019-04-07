@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: ESNext Starter - Get With Gutenberg
+ * Plugin Name: ESNext Internationalization - Get With Gutenberg
  * Plugin URI: https://github.com/Wordpress
- * Description: Demonstrate how to start building a Gutenberg block in ESNext.
+ * Description: Demonstrate how to internationalize a Gutenberg block in ESNext.
  * Version: 1.0.0
  * Author: Get With Gutenberg
  * Author URI: https://getwithgutenberg.com
@@ -32,7 +32,7 @@ function gwg_editor_assets() {
 	wp_enqueue_script(
 		'gwg-block-js',
 		GWG_ESNEXT_PLUGIN_URL . 'block.build.js',
-		[],
+		[ 'wp-blocks', 'wp-i18n' ],
 		GWG_ESNEXT_VERSION,
 		true // Enqueue script in the footer.
 	);
