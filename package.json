@@ -17,7 +17,7 @@
         "dev": "cross-env webpack --watch",
         "i18n": "npm run i18n-pot && npm run i18n-json && npm run i18n-mo",
         "i18n-pot": "wp i18n make-pot ./ ./languages/gwg.pot --headers='{\"Last-Translator\":\"JR Tashjian <jr@getwithgutenberg.com>\",\"Language-Team\":\"Get With Gutenberg <info@getwithgutenberg.com>\"}' && cp ./languages/gwg.pot ./languages/gwg-en_US.po",
-        "i18n-json": "wp i18n make-json languages/ && rename 's/(gwg-)([a-zA-Z_]+-)[^\\.]*(\\.json)/$1$2gwg-block-js$3/' ./languages/*",
+        "i18n-json": "wp i18n make-json languages/ && rename 's/(gwg-)([a-zA-Z_]+-)[^\\.]*(\\.json)/$1$2gwg-block$3/' ./languages/*",
         "i18n-mo": "for file in `find . -name \"*.po\"` ; do msgfmt -o ${file/.po/.mo} $file ; done"
     }
 }
