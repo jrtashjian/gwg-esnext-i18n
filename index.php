@@ -18,30 +18,51 @@ define( 'GWG_ESNEXT_VERSION', '1.0.0' );
 define( 'GWG_ESNEXT_PLUGIN_DIR', dirname( __FILE__ ) );
 define( 'GWG_ESNEXT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-function gwg_block_assets() {
-	wp_enqueue_style(
-		'gwg-style-css',
+function gwg_init() {
+	load_plugin_textdomain( 'gwg', false, GWG_ESNEXT_PLUGIN_DIR . '/languages' );
+}
+add_action( 'init', 'gwg_init' );
+
+function gwg_register_block_type() {
+
+	if ( ! function_exists( 'register_block_type' ) ) {
+		// Gutenberg is not active.
+		return;
+	}
+
+	wp_register_style(
+		'gwg-style',
 		GWG_ESNEXT_PLUGIN_URL . 'style.css',
 		[],
 		GWG_ESNEXT_VERSION
 	);
-}
-add_action( 'enqueue_block_assets', 'gwg_block_assets' );
 
-function gwg_editor_assets() {
-	wp_enqueue_script(
-		'gwg-block-js',
+	wp_register_style(
+		'gwg-editor',
+		GWG_ESNEXT_PLUGIN_URL . 'editor.css',
+		[],
+		GWG_ESNEXT_VERSION
+	);
+
+	wp_register_script(
+		'gwg-block',
 		GWG_ESNEXT_PLUGIN_URL . 'block.build.js',
 		[ 'wp-blocks', 'wp-i18n' ],
 		GWG_ESNEXT_VERSION,
 		true // Enqueue script in the footer.
 	);
 
-	wp_enqueue_style(
-		'gwg-editor-css',
-		GWG_ESNEXT_PLUGIN_URL . 'editor.css',
-		[],
-		GWG_ESNEXT_VERSION
+	register_block_type(
+		'gwg/esnext-starter',
+		[
+			'editor_script' => 'gwg-block',
+			'editor_style'  => 'gwg-editor',
+			'style'         => 'gwg-style',
+		]
 	);
+
+	if ( function_exists( 'wp_set_script_translations' ) ) {
+		wp_set_script_translations( 'gwg-block', 'gwg', GWG_ESNEXT_PLUGIN_DIR . '/languages' );
+	}
 }
-add_action( 'enqueue_block_editor_assets', 'gwg_editor_assets' );
+add_action( 'init', 'gwg_register_block_type' );
